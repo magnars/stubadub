@@ -21,6 +21,11 @@ Add `[stubadub "1.0.0"]` to `[:profiles :dev :dependencies]` in your `project.cl
 
 ## Usage
 
+```clj
+(ns example-test
+  (:require [stubadub.core :refer [with-stub calls-to]]))
+```
+
 `with-stub` takes a function symbol and replaces it in the scope of its body.
 Use `calls-to` to return the list of calls to the stub.
 

@@ -1,4 +1,4 @@
-(defproject stubadub "1.0.0"
+(defproject stubadub "1.0.1"
   :description "A small stubbing library for Clojure"
   :url "https://github.com/magnars/stubadub"
   :license {:name "Eclipse Public License"

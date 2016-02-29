@@ -17,7 +17,7 @@ In that case, feel free to use stubadub.
 
 ## Install
 
-Add `[stubadub "1.0.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[stubadub "1.0.1"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
 
 ## Usage
 
@@ -61,6 +61,18 @@ person:
 
 ;; => (("test4.txt" "not read from disk either"))
 ```
+
+### A word of warning
+
+Since stubadub uses `with-redefs` under the hood, your stubs are not
+thread-local. This means that parallell tests are out. Open an issue if this is
+a blocker for you, and we can look at making a set of thread-local functions.
+
+## Contributors
+
+- [Anders Furseth](https://github.com/andersfurseth) fixed a bug with using stubadub across threads.
+
+Thanks!
 
 ## Contribute
 

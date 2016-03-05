@@ -17,10 +17,25 @@
         (with-stub slurp :returns "not read from disk"
           (slurp "test3.txt")))
 
+;; return values by args can be specified
+
+(def returns-by-args {["test4.txt" :x :y] "not read from disk"
+                      ["test5.txt" :y :z] "not read from disk either"})
+
+(expect ["not read from disk"
+         "not read from disk either"
+         nil]
+        (with-stub slurp
+          :returns-by-args {["test4.txt" :x :y] "not read from disk"
+                            ["test5.txt" :y :z] "not read from disk either"}
+          [(slurp "test4.txt" :x :y)
+           (slurp "test5.txt" :y :z)
+           (slurp "test5.txt" :not :matching)]))
+
 ;; you can nest several stubs
 
-(expect [["test4.txt" "not read from disk either"]]
+(expect [["test6.txt" "not read from disk either"]]
         (with-stub spit
           (with-stub slurp :returns "not read from disk either"
-            (spit "test4.txt" (slurp "test5.txt"))
+            (spit "test6.txt" (slurp "test7.txt"))
             (calls-to spit))))

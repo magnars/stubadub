@@ -50,6 +50,20 @@ You can specify a return value for the stub with `:returns`:
 ;; => "not read from disk"
 ```
 
+Also, you can specify return values by arguments to the stub with
+`:returns-by-args`:
+
+```clj
+(with-stub slurp :returns-by-args {["test4.txt" :x :y] "not read from disk"
+                                   ["test5.txt" :y :z] "not read from disk either"}
+  [(slurp "test4.txt" :x :y)
+   (slurp "test5.txt" :y :z)])
+
+;; => ["not read from disk" "not read from disk either"]
+```
+
+If the arguments don't match up, the stub function will return `nil`.
+
 And you can nest several stubs, at which point you're probably not a happy
 person:
 

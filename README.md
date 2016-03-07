@@ -84,7 +84,7 @@ a blocker for you, and we can look at making a set of thread-local functions.
 
 ## Contributors
 
-- [Anders Furseth](https://github.com/andersfurseth) fixed a bug with using stubadub across threads.
+- [Anders Furseth](https://github.com/andersfurseth) added `:returns-by-args` and fixed a bug with using stubadub across threads.
 
 Thanks!
 

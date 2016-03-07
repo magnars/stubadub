@@ -19,9 +19,6 @@
 
 ;; return values by args can be specified
 
-(def returns-by-args {["test4.txt" :x :y] "not read from disk"
-                      ["test5.txt" :y :z] "not read from disk either"})
-
 (expect ["not read from disk"
          "not read from disk either"
          nil]

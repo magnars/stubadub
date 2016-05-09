@@ -5,11 +5,19 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies []
 
-  :profiles {:dev {:plugins [[lein-expectations "0.0.7"]
-                             [lein-autoexpect "1.6.0"]]
+  :cljsbuild {:builds [{:id "test"
+                        :source-paths ["src" "test"]
+                        :compiler {:output-to "out/testable.js"
+                                   :output-dir "out"
+                                   :main "stubadub.test-runner"
+                                   :optimizations :none
+                                   :target :nodejs}}]}
+
+  :profiles {:dev {:plugins [[com.jakemccrary/lein-test-refresh "0.14.0"]
+                             [lein-doo "0.1.6"]]
                    :dependencies [[org.clojure/clojure "1.8.0"]
                                   [org.clojure/clojurescript "1.8.40"]
-                                  [expectations "2.1.4"]
                                   [flare "0.2.9"]]
-                   :injections [(require 'flare.expectations)
-                                (flare.expectations/install!)]}})
+                   :injections [(require 'flare.clojure-test)
+                                (flare.clojure-test/install!)]
+                   :doo {:build "test"}}})

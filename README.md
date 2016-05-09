@@ -114,15 +114,17 @@ certainly break it later.
 
 Run tests with
 
-    lein expectations
+    lein test
 
 Run tests automatically on changes with
 
-    lein autoexpect
+    lein test-refresh
 
-If you want notifications, on OSX you can `brew install terminal-notifier` then
+Make sure to run the tests for ClojureScript as well:
 
-    lein autoexpect :notify
+    lein doo node
+
+You'll have to have the `node` binary installed.
 
 ## License
 

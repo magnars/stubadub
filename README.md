@@ -1,6 +1,6 @@
 # stubadub
 
-A small stubbing library for Clojure.
+A small stubbing library for Clojure and ClojureScript.
 
 To quote [Kris Jenkins](https://twitter.com/krisajenkins) in his [Which Programming Languages Are Functional?](http://blog.jenkster.com/2015/12/which-programming-languages-are-functional.html) blog post:
 
@@ -74,6 +74,20 @@ person:
     (calls-to spit)))
 
 ;; => (("test4.txt" "not read from disk either"))
+```
+
+### Usage from ClojureScript
+
+Replace
+
+```clj
+(:require [stubadub.core :refer [with-stub calls-to]])
+```
+
+with
+
+```clj
+(:require [stubadub.core :refer [calls-to] :refer-macros [with-stub])
 ```
 
 ### A word of warning

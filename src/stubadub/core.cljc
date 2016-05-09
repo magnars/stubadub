@@ -1,6 +1,6 @@
 (ns stubadub.core)
 
-(def ^:dynamic *calls*)
+(def ^:dynamic *calls* (atom nil))
 
 (defmacro with-stub [func & opts-and-body]
   (let [has-return-value? (= :returns (first opts-and-body))
@@ -11,7 +11,7 @@
                opts-and-body)
         return-value (when has-opts? (second opts-and-body))
         args (gensym)]
-    `(with-redefs [*calls* (if (bound? #'*calls*)
+    `(with-redefs [*calls* (if @*calls*
                              *calls* (atom []))
                    ~func (fn [& ~args]
                            (swap! *calls*
@@ -23,6 +23,7 @@
        ~@body)))
 
 (defn calls-to [func]
-  (if (bound? #'*calls*)
+  (if @*calls*
     (keep #(when (= func (:func %)) (:args %)) @*calls*)
-    (throw (RuntimeException. "calls-to used outside of with-stub context!"))))
+    (throw (#?(:clj  RuntimeException.
+               :cljs js/Error.) "calls-to used outside of with-stub context!"))))

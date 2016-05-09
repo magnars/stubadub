@@ -17,7 +17,7 @@ In that case, feel free to use stubadub.
 
 ## Install
 
-Add `[stubadub "1.1.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[stubadub "1.2.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
 
 ## Usage
 

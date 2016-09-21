@@ -17,7 +17,13 @@ In that case, feel free to use stubadub.
 
 ## Install
 
-Add `[stubadub "1.2.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+Add `[stubadub "2.0.0"]` to `[:profiles :dev :dependencies]` in your `project.clj`.
+
+### Breaking change in 2.0
+
+The old `:returns-by-args` has been rechristened `:return-fn`. The former took
+only maps, while the latter can be any function. Its use with maps is unchanged,
+apart from the name.
 
 ## Usage
 

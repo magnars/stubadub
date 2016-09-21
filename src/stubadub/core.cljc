@@ -4,8 +4,8 @@
 
 (defmacro with-stub [func & opts-and-body]
   (let [has-return-value? (= :returns (first opts-and-body))
-        has-return-value-by-args? (= :returns-by-args (first opts-and-body))
-        has-opts? (or has-return-value? has-return-value-by-args?)
+        has-return-fn? (= :return-fn (first opts-and-body))
+        has-opts? (or has-return-value? has-return-fn?)
         body (if has-opts?
                (nnext opts-and-body)
                opts-and-body)
@@ -18,7 +18,7 @@
                                   conj {:func ~func, :args ~args})
                            ~(cond
                               has-return-value? return-value
-                              has-return-value-by-args? `(get ~return-value ~args)
+                              has-return-fn? `(~return-value ~args)
                               :else nil))]
        ~@body)))
 

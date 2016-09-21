@@ -50,19 +50,30 @@ You can specify a return value for the stub with `:returns`:
 ;; => "not read from disk"
 ```
 
-Also, you can specify return values by arguments to the stub with
-`:returns-by-args`:
+Also, you can supply a function to produce the desired return value with
+`:return-fn`. The supplied function will be called with a vector containing
+the arguments of the stubbed function:
 
 ```clj
-(with-stub slurp :returns-by-args {["test4.txt" :x :y] "not read from disk"
-                                   ["test5.txt" :y :z] "not read from disk either"}
+(with-stub slurp :return-fn (fn [[file _ _]] (str file " not read from disk"))
+  [(slurp "test4.txt" :x :y)
+   (slurp "test5.txt" :y :z)])
+
+;; => ["test4.txt not read from disk" "test5.txt not read from disk"]
+```
+
+Since the arguments to your function are supplied in a vector, and Clojure maps
+indeed are functions themselves, you can conveniently supply a map of arguments
+to return value:
+
+```clj
+(with-stub slurp :return-fn {["test4.txt" :x :y] "not read from disk"
+                             ["test5.txt" :y :z] "not read from disk either"}
   [(slurp "test4.txt" :x :y)
    (slurp "test5.txt" :y :z)])
 
 ;; => ["not read from disk" "not read from disk either"]
 ```
-
-If the arguments don't match up, the stub function will return `nil`.
 
 And you can nest several stubs, at which point you're probably not a happy
 person:
@@ -98,7 +109,7 @@ a blocker for you, and we can look at making a set of thread-local functions.
 
 ## Contributors
 
-- [Anders Furseth](https://github.com/andersfurseth) added `:returns-by-args` and fixed a bug with using stubadub across threads.
+- [Anders Furseth](https://github.com/andersfurseth) added `:return-fn` and fixed a bug with using stubadub across threads.
 
 Thanks!
 

@@ -17,16 +17,13 @@
          (with-stub slurp :returns "not read from disk"
            (slurp "test3.txt")))))
 
-(deftest return-values-by-args-can-be-specified
-  (is (= ["not read from disk"
-          "not read from disk either"
-          nil]
+(deftest return-values-by-function-can-be-specified
+  (is (= ["test4.txt not read from disk"
+          "test5.txt not read from disk"]
          (with-stub slurp
-           :returns-by-args {["test4.txt" :x :y] "not read from disk"
-                             ["test5.txt" :y :z] "not read from disk either"}
+           :return-fn (fn [[file _ _]] (str file " not read from disk"))
            [(slurp "test4.txt" :x :y)
-            (slurp "test5.txt" :y :z)
-            (slurp "test5.txt" :not :matching)]))))
+            (slurp "test5.txt" :y :z)]))))
 
 (deftest you-can-nest-several-stubs
   (is (= [["test6.txt" "not read from disk either"]]

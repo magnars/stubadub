@@ -4,6 +4,9 @@
      :cljs (:require [cljs.test :refer-macros [deftest is]]
                      [stubadub.core :refer [calls-to] :refer-macros [with-stub]])))
 
+#?(:cljs (defn spit [& args])) ;; these don't exist when running cljs-tests on node.js
+#?(:cljs (defn slurp [& args]))
+
 (deftest calls-to-returns-a-list-of-the-arguments-passed-to-the-stub
   (is (= [["test1.txt" "not written to disk"]
           ["test2.txt" "not written to disk either"]]

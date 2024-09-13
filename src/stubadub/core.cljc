@@ -9,18 +9,18 @@
         body (if has-opts?
                (nnext opts-and-body)
                opts-and-body)
-        return-value (when has-opts? (second opts-and-body))
         args (gensym)]
-    `(with-redefs [*calls* (if @*calls*
-                             *calls* (atom []))
-                   ~func (fn [& ~args]
-                           (swap! *calls*
-                                  conj {:func ~func, :args ~args})
-                           ~(cond
-                              has-return-value? return-value
-                              has-return-fn? `(~return-value ~args)
-                              :else nil))]
-       ~@body)))
+    `(let [return-value# ~(when has-opts? (second opts-and-body))]
+       (with-redefs [*calls* (if @*calls*
+                               *calls* (atom []))
+                     ~func (fn [& ~args]
+                             (swap! *calls*
+                                    conj {:func ~func, :args ~args})
+                             (cond
+                               ~has-return-value? return-value#
+                               ~has-return-fn? (return-value# ~args)
+                               :else nil))]
+         ~@body))))
 
 (defn calls-to [func]
   (if @*calls*

@@ -28,6 +28,22 @@
            [(slurp "test4.txt" :x :y)
             (slurp "test5.txt" :y :z)]))))
 
+(defn return-in-sequence [vals]
+  (let [retvals (atom vals)]
+    (fn [& _]
+      (when-let [v (first @retvals)]
+        (swap! retvals next)
+        v))))
+
+(deftest does-not-re-evaluate-return-fn-for-every-call
+  (is (= ["test4.txt not read from disk"
+          "test5.txt not read from disk"]
+         (with-stub slurp
+           :return-fn (return-in-sequence ["test4.txt not read from disk"
+                                           "test5.txt not read from disk"])
+           [(slurp "test4.txt" :x :y)
+            (slurp "test5.txt" :y :z)]))))
+
 (deftest you-can-nest-several-stubs
   (is (= [["test6.txt" "not read from disk either"]]
          (with-stub spit
